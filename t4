@@ -1,0 +1,135 @@
+import java.util.Scanner;
+
+// Class for User
+class User {
+    private String username;
+    private String password;
+    private String profile;
+
+    // Constructor
+    public User(String username, String password, String profile) {
+        this.username = username;
+        this.password = password;
+        this.profile = profile;
+    }
+
+    // Getter methods
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getProfile() {
+        return profile;
+    }
+
+    // Method to update profile and password
+    public void updateProfileAndPassword(String newProfile, String newPassword) {
+        this.profile = newProfile;
+        this.password = newPassword;
+    }
+}
+
+// Class for MCQs
+class MCQs {
+    private String question;
+    private String[] options;
+    private int correctAnswerIndex;
+
+    // Constructor
+    public MCQs(String question, String[] options, int correctAnswerIndex) {
+        this.question = question;
+        this.options = options;
+        this.correctAnswerIndex = correctAnswerIndex;
+    }
+
+    // Getter methods
+    public String getQuestion() {
+        return question;
+    }
+
+    public String[] getOptions() {
+        return options;
+    }
+
+    public int getCorrectAnswerIndex() {
+        return correctAnswerIndex;
+    }
+}
+
+// Main class
+public class OnlineTestSystem {
+    private static final int TIME_LIMIT_SECONDS = 60;
+    private static final int NUM_QUESTIONS = 5;
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        User currentUser = login(scanner);
+
+        if (currentUser != null) {
+            System.out.println("Login successful. Welcome, " + currentUser.getUsername() + "!");
+
+            // Update profile and password
+            updateProfileAndPassword(scanner, currentUser);
+
+            // Take the test
+            takeTest(scanner);
+
+            // Logout
+            logout();
+        } else {
+            System.out.println("Invalid username or password. Exiting...");
+        }
+
+        scanner.close();
+    }
+
+    // Method for user login
+    private static User login(Scanner scanner) {
+        System.out.println("Enter username:");
+        String username = scanner.nextLine();
+        System.out.println("Enter password:");
+        String password = scanner.nextLine();
+
+        // Dummy authentication logic - replace with actual logic
+        if (username.equals("user") && password.equals("password")) {
+            return new User(username, password, "Default Profile");
+        } else {
+            return null;
+        }
+    }
+
+    // Method to update profile and password
+    private static void updateProfileAndPassword(Scanner scanner, User user) {
+        System.out.println("Current profile: " + user.getProfile());
+        System.out.println("Enter new profile:");
+        String newProfile = scanner.nextLine();
+        System.out.println("Enter new password:");
+        String newPassword = scanner.nextLine();
+
+        user.updateProfileAndPassword(newProfile, newPassword);
+        System.out.println("Profile and password updated successfully.");
+    }
+
+    // Method to take the test
+    private static void takeTest(Scanner scanner) {
+        System.out.println("Welcome to the test! You have " + TIME_LIMIT_SECONDS + " seconds to complete " + NUM_QUESTIONS + " questions.");
+
+        // Timer
+        try {
+            Thread.sleep(TIME_LIMIT_SECONDS * 1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Time's up! Test submitted.");
+    }
+
+    // Method for logout
+    private static void logout() {
+        System.out.println("Logout successful. Goodbye!");
+    }
+}
